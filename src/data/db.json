@@ -1,0 +1,30 @@
+{
+    "users": [
+        {
+            "id": "uiauihafjk",
+            "username": "admin",
+            "password": "admin",
+            "admin": true
+        }
+    ],
+    "persons": [
+        {
+            "id": "afaduhjgwui",
+            "first_name": "Martin",
+            "last_name": "Simonovski",
+            "date_of_birth": "1990-03-07"
+        },
+        {
+            "id": "asdasdafqf",
+            "first_name": "John",
+            "last_name": "Doe",
+            "date_of_birth": "1978-11-12"
+        },
+        {
+            "id": "jiajknqnh",
+            "first_name": "Jane",
+            "last_name": "Doe",
+            "date_of_birth": "1992-05-21"
+        }
+    ]
+}
