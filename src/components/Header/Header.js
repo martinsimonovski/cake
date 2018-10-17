@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import * as authActions from '../../store/auth/actions'; 
 
 class Header extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.handleLogout = this.handleLogout.bind(this);
+    }
+    
+    handleLogout(event) {
+        event.preventDefault();
+        this.props.dispatch(authActions.logout());
+    }
 
     render() {
         const authButton = this.props.auth.authenticated ?
-        (<a href="/api/logout">Logout</a>) :
+        (<Link to="/" onClick={this.handleLogout}>Logout</Link>) :
         (<Link to="/login" className="navbar-item">Login</Link>);
         
         return (
@@ -27,7 +38,7 @@ class Header extends Component {
     };
 }
 
-function mapStateToProps( {auth}) {
+function mapStateToProps( { auth } ) {
     return { auth };
 }
 
