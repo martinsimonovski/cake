@@ -1,14 +1,15 @@
 import React from 'react';
 import Header from '../Header/Header';
+import { renderRoutes } from 'react-router-config';
 
-export default ({ children }) => {
+const App = ({route}) => {
   return (
     <main className="wrapper">
       <Header />
       <main className="container">
-        <section class="section">
-          <div class="container">
-            {children}
+        <section className="section">
+          <div className="container">
+            {renderRoutes(route.routes)}
           </div>
         </section>
       </main>
@@ -16,3 +17,7 @@ export default ({ children }) => {
     </main>
   );
 }
+
+export default {
+  component: App
+};

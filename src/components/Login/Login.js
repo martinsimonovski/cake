@@ -9,7 +9,7 @@ class Login extends Component {
                         <h1 className="title">Login</h1>
                     </div>
                 </header>
-                <section class="section">
+                <section className="section">
                     <div className="columns">
                         <div className="column"></div>
                         <div className="column is-two-thirds">
@@ -41,4 +41,6 @@ class Login extends Component {
     }
 };
 
-export default Login;
+export default {
+    component: Login
+};

@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class Header extends Component {
+
+
     render() {
+        const authButton = this.props.auth.authenticated ?
+        (<a href="/api/logout">Logout</a>) :
+        (<Link to="/login" className="navbar-item">Login</Link>);
+        
         return (
             <nav className="navbar has-shadow is-spaced">
                 <section className="container">
                     <div className="navbar-brand">
-                        <a className="navbar-item">CAKE</a>
+                        <Link to="/" className="navbar-item">CAKE</Link>
                     </div>
                     <div className="navbar-menu">
                         <div className="navbar-end">
-                            <a className="navbar-item">Login</a>
+                            { authButton }
                         </div>
                     </div>
                 </section>
@@ -19,4 +27,8 @@ class Header extends Component {
     };
 }
 
-export default Header;
+function mapStateToProps( {auth}) {
+    return { auth };
+}
+
+export default connect(mapStateToProps)(Header);
