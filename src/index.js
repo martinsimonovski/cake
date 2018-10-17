@@ -4,14 +4,16 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 import App from './components/App/App';
+import Login from './components/Login/Login';
 
 ReactDOM.render(
     <BrowserRouter>
         <App>
             <Route path="/" exact component={() => 'Home'}></Route>
+            <Route path="/login" component={Login}></Route>
             <Route path="/persons" component={() => 'Persons'}></Route>
         </App>
-    </BrowserRouter >,
+    </BrowserRouter>,
     document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

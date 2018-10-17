@@ -1,10 +1,18 @@
 import React from 'react';
+import Header from '../Header/Header';
 
 export default ({ children }) => {
   return (
-    <div>
-      <h1>CAKE!</h1>
-      {children}
-    </div>
+    <main className="wrapper">
+      <Header />
+      <main className="container">
+        <section class="section">
+          <div class="container">
+            {children}
+          </div>
+        </section>
+      </main>
+
+    </main>
   );
 }
