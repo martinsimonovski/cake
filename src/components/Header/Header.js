@@ -5,10 +5,11 @@ import * as authActions from '../../store/auth/actions';
 
 class Header extends Component {
 
+    // to get the props into the <a> we need to bind it
     constructor(props) {
         super(props);
 
-        this.handleLogout = this.handleLogout.bind(this);
+        this.handleLogout = this.handleLogout.bind(this); 
     }
     
     handleLogout(event) {
