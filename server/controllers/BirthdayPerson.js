@@ -104,13 +104,14 @@ export function generateBirthdays(req, res, next) {
     const file = fs.readFileSync(__dirname + '/../data/bdays.json');
 
     const birthdays = JSON.parse(file);
-    for (let x in birthdays) {
-        let dob = birthdays[x].dateOfBirth;
+    birthdays.forEach(bday => {
+        let dob = bday.dateOfBirth;
 
-        birthdays[x].dateOfBirth = `${dob.substr(4, 4)}-${dob.substr(2, 2)}-${dob.substr(0, 2)}`;
-        const person = new Person(birthdays[x]);
+        bday.dateOfBirth = `${dob.substr(4, 4)}-${dob.substr(2, 2)}-${dob.substr(0, 2)}`;
+        const person = new Person(bday);
         person.save();
-    }
+    });
+
     res.json({
         message: "All birthdays were generated."
     });

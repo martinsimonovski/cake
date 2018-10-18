@@ -2,8 +2,9 @@ import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt-nodejs';
 
 const userSchema = new Schema({
-    username: { type: String, unique: true, lowercase: true},
-    password: String
+    username: { type: String, unique: true, lowercase: true },
+    password: String,
+    createdAt: { type: Date, required: true, default: Date.now }
 });
 
 userSchema.pre('save', function (next) {
@@ -25,7 +26,7 @@ userSchema.pre('save', function (next) {
     });
 });
 
-userSchema.methods.comparePassword = function(candidatePassword, callback) {
+userSchema.methods.comparePassword = function (candidatePassword, callback) {
     bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
         if (err) { return callback(err); }
 

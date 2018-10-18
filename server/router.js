@@ -25,10 +25,7 @@ export default (app) => {
 
     // Birthday_groups
     app.post('/birthday/group', BirthdayGroup.create);
-    // - create a group
-    // - update records in a group
-    // [ id, dateStart, dateEnd, price, person_ids]
-
-
-
+    app.delete('/birthday/:id', BirthdayGroup.remove);
+    app.put('/birthday/:id', BirthdayGroup.updatePayedIds);
+    app.get('/birthday/group/current', BirthdayGroup.getCurrent);
 }

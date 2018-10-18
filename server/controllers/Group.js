@@ -1,15 +1,108 @@
 import Group from '../models/Group';
+import Person from '../models/Person';
 
 export function create(req, res, next) {
     const startDate = req.startDate;
     const endDate = req.endDate;
 
     if (!startDate || !endDate) {
-        res.json(createAutoGroup());
+        const dates = getAutoDates();
+
+        getBirthdayPersons(dates).then((persons) => {
+            let birthdayIds = persons.map(person => {
+                return person._id;
+            });
+
+            const group = new Group({
+                startDate: dates.startDate,
+                endDate: dates.endDate,
+                birthdayIds
+            });
+
+            group.save((err) => {
+                if (err) {
+                    return next(err);
+                }
+
+                res.json(group);
+            });
+        });
     }
 }
 
-function createAutoGroup() {
+export function remove(req, res, next) {
+    const id = req.params.id ? req.params.id : null;
+
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+        return res.status(422).send({ errorMessage: 'Please provide the correct id of the group.' });
+    }
+
+    Group.findByIdAndRemove(id, (err, existingGroup) => {
+        if (err) { return next(err); }
+
+        if (existingGroup.payedIds === [] || existingGroup.payedIds.length === 0) {
+            return res.status(422).send({ errorMessage: 'You can\'t delete the group because some people have payed.' });
+        }
+
+        existingGroup.save((err) => {
+            if (err) {
+                return next(err);
+            }
+
+            res.json({
+                message: "Group successfully deleted",
+                id: existingGroup._id
+            });
+        })
+    });
+}
+
+export function updatePayedIds(req, res, next) {
+    const id = req.params.id ? req.params.id : null;
+
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+        return res.status(422).send({ errorMessage: 'Please provide the correct id of the group.' });
+    }
+
+    Group.findById(id, (err, existingGroup) => {
+        if (err) { return next(err); }
+
+        const personId = req.body.personId;
+        const payed = req.body.payed;
+
+        if (!personId || !payed) {
+            return res.status(422).send({ errorMessage: 'Please provide the personId and payed.' });
+        }
+
+        const hasPayed = existingGroup.payedIds.includes(personId);
+        if (!hasPayed && payed) {
+            existingGroup.payedIds.push(personId);
+        } else if (hasPayed && !payed) {
+            var index = existingGroup.payedIds.indexOf(personId);
+            if (index > -1) {
+                existingGroup.payedIds.splice(index, 1);
+            }
+        }
+
+        existingGroup.save((err) => {
+            if (err) {
+                return next(err);
+            }
+
+            res.json({
+                message: "Person " + payed ? 'payed' : 'unpayed'
+            });
+        })
+    });
+}
+
+export function getCurrent(req, res, next) {
+    Group.findOne({}, {}, { sort: { 'created_at': -1 } }, (err, group) => {
+        res.json(group);
+    });
+}
+
+function getAutoDates() {
     let today = new Date();
     let month = today.getMonth() + 1;
     let year = today.getFullYear();
@@ -37,4 +130,28 @@ function createAutoGroup() {
         startDate,
         endDate
     };
+}
+
+function getBirthdayPersons(dates) {
+    const promise = Person.find({}).exec();
+    return promise.then(persons => {
+        let personsMap = [];
+        persons.forEach(person => {
+            if (hasBirthday(new Date(person.dateOfBirth), dates)) {
+                personsMap.push(person);
+            }
+        });
+
+        return personsMap;
+    });
+}
+
+function hasBirthday(dateOfBirth, { startDate, endDate }) {
+    let year = dateOfBirth.getDate() <= 15 ? endDate.getFullYear() : startDate.getFullYear();
+    dateOfBirth.setFullYear(year);
+    if (dateOfBirth >= startDate && dateOfBirth < endDate) {
+        return true;
+    }
+
+    return false;
 }
