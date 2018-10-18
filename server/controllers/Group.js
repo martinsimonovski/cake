@@ -4,7 +4,6 @@ export function create(req, res, next) {
     const startDate = req.startDate;
     const endDate = req.endDate;
 
-    console.log(createAutoGroup());
     if (!startDate || !endDate) {
         res.json(createAutoGroup());
     }

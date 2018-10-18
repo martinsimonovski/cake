@@ -1,7 +1,8 @@
 import Person from '../models/Person';
+import fs from 'fs';
 
 export function get(req, res, next) {
-    Person.find({}, function(err, persons) {
+    Person.find({}, function (err, persons) {
         let personsMap = {};
 
         persons.forEach(person => {
@@ -18,14 +19,14 @@ export function add(req, res, next) {
     const dateOfBirth = req.body.dateOfBirth;
 
     if (!firstName || !lastName || !dateOfBirth) {
-        return res.status(422).send({errorMessage: 'Please provide the appropriate information.'});
+        return res.status(422).send({ errorMessage: 'Please provide the appropriate information.' });
     }
 
-    Person.findOne({firstName: firstName, lastName: lastName}, (err, existingPerson) => {
+    Person.findOne({ firstName: firstName, lastName: lastName }, (err, existingPerson) => {
         if (err) { return next(err); }
 
         if (existingPerson) {
-            return res.status(422).send({errorMessage: 'Person already exists.'});
+            return res.status(422).send({ errorMessage: 'Person already exists.' });
         }
 
         const person = new Person({
@@ -40,7 +41,7 @@ export function add(req, res, next) {
             }
 
             res.json(person);
-        })
+        });
     });
 }
 
@@ -48,7 +49,7 @@ export function update(req, res, next) {
     const id = req.params.id ? req.params.id : null;
 
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-        return res.status(422).send({errorMessage: 'Please provide the correct id of the person.'});
+        return res.status(422).send({ errorMessage: 'Please provide the correct id of the person.' });
     }
 
     const firstName = req.body.firstName;
@@ -56,7 +57,7 @@ export function update(req, res, next) {
     const dateOfBirth = req.body.dateOfBirth;
 
     if (!firstName || !lastName || !dateOfBirth) {
-        return res.status(422).send({errorMessage: 'Please provide the appropriate information.'});
+        return res.status(422).send({ errorMessage: 'Please provide the appropriate information.' });
     }
 
     Person.findById(req.params.id, (err, existingPerson) => {
@@ -65,7 +66,7 @@ export function update(req, res, next) {
         existingPerson.firstName = firstName;
         existingPerson.lastName = lastName;
         existingPerson.dateOfBirth = dateOfBirth;
-        
+
         existingPerson.save((err) => {
             if (err) {
                 return next(err);
@@ -80,12 +81,12 @@ export function remove(req, res, next) {
     const id = req.params.id ? req.params.id : null;
 
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-        return res.status(422).send({errorMessage: 'Please provide the correct id of the person.'});
+        return res.status(422).send({ errorMessage: 'Please provide the correct id of the person.' });
     }
 
     Person.findByIdAndRemove(req.params.id, (err, existingPerson) => {
         if (err) { return next(err); }
-        
+
         existingPerson.save((err) => {
             if (err) {
                 return next(err);
@@ -98,3 +99,20 @@ export function remove(req, res, next) {
         })
     });
 }
+
+export function generateBirthdays(req, res, next) {
+    const file = fs.readFileSync(__dirname + '/../data/bdays.json');
+
+    const birthdays = JSON.parse(file);
+    for (let x in birthdays) {
+        let dob = birthdays[x].dateOfBirth;
+
+        birthdays[x].dateOfBirth = `${dob.substr(4, 4)}-${dob.substr(2, 2)}-${dob.substr(0, 2)}`;
+        const person = new Person(birthdays[x]);
+        person.save();
+    }
+    res.json({
+        message: "All birthdays were generated."
+    });
+}
+

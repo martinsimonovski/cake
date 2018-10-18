@@ -17,6 +17,7 @@ export default (app) => {
     app.post('/persons', BirthdayPerson.add);
     app.put('/persons/:id', BirthdayPerson.update);
     app.delete('/persons/:id', BirthdayPerson.remove);
+    app.get('/persons/generate', BirthdayPerson.generateBirthdays);
 
     // Authentication
     app.post('/auth/signin', requireSignin, Authentication.signin);
