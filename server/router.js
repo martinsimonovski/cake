@@ -1,0 +1,33 @@
+import * as BirthdayPerson from './controllers/BirthdayPerson';
+import * as BirthdayGroup from './controllers/Group';
+import * as Authentication from './controllers/Authentication';
+import './services/passport';
+import passport from 'passport';
+
+const requireAuth = passport.authenticate('jwt', { session: false });
+const requireSignin = passport.authenticate('local', { session: false });
+
+export default (app) => {
+    app.get('/', (req, res) => {
+        res.send({ hi: 'there' });
+    });
+
+    // CRUD Person
+    app.get('/persons', BirthdayPerson.get);
+    app.post('/persons', BirthdayPerson.add);
+    app.put('/persons/:id', BirthdayPerson.update);
+    app.delete('/persons/:id', BirthdayPerson.remove);
+
+    // Authentication
+    app.post('/auth/signin', requireSignin, Authentication.signin);
+    app.post('/auth/create', requireAuth, Authentication.addAdmin);
+
+    // Birthday_groups
+    app.post('/birthday/group', BirthdayGroup.create);
+    // - create a group
+    // - update records in a group
+    // [ id, dateStart, dateEnd, price, person_ids]
+
+
+
+}
