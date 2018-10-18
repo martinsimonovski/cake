@@ -16,6 +16,7 @@ export function create(req, res, next) {
             const group = new Group({
                 startDate: dates.startDate,
                 endDate: dates.endDate,
+                price: birthdayIds.length * 100,
                 birthdayIds
             });
 

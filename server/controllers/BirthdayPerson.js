@@ -105,9 +105,9 @@ export function generateBirthdays(req, res, next) {
 
     const birthdays = JSON.parse(file);
     birthdays.forEach(bday => {
-        let dob = bday.dateOfBirth;
+        let b = bday.birthday;
 
-        bday.dateOfBirth = `${dob.substr(4, 4)}-${dob.substr(2, 2)}-${dob.substr(0, 2)}`;
+        bday.birthday = `${b.substr(4, 4)}-${b.substr(2, 2)}-${b.substr(0, 2)}`;
         const person = new Person(bday);
         person.save();
     });

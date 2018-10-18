@@ -9,7 +9,7 @@ const requireSignin = passport.authenticate('local', { session: false });
 
 export default (app) => {
     app.get('/', (req, res) => {
-        res.send({ hi: 'there' });
+        res.send({ foo: 'bar' });
     });
 
     // CRUD Person
@@ -25,7 +25,22 @@ export default (app) => {
 
     // Birthday_groups
     app.post('/birthday/group', BirthdayGroup.create);
-    app.delete('/birthday/:id', BirthdayGroup.remove);
-    app.put('/birthday/:id', BirthdayGroup.updatePayedIds);
+    app.delete('/birthday/group/:id', BirthdayGroup.remove);
+    app.put('/birthday/group/:id', BirthdayGroup.updatePayedIds);
     app.get('/birthday/group/current', BirthdayGroup.getCurrent);
 }
+
+/*
+Header:
+    - Menu with links
+    - admin: quick action to create a list
+    - admin: login/logout
+Home page where you can:
+    - see the current group and the ammount that needs to be payed
+    - list with names (whos birthday it is)
+    - list with all the people that need to pay
+    - admin: action to select who payed
+    - admin: delete the group
+Passed groups
+    - table with all the birthday groups and who payed wor that group
+*/
