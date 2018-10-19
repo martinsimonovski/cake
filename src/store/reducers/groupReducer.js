@@ -5,7 +5,7 @@ export default (state = {}, action) => {
         case FETCH_CURRENT_GROUP:
             return action.payload.data;
         case UPDATE_GROUP:
-            return action.payload.data;
+            return action.payload.data.group;
         default:
             return state;
     }

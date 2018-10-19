@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchPersons, fetchCurrentGroup, updateGroup } from '../../store/actions';
-import { UPDATE_GROUP } from '../../store/actions/types';
 import Persons from '../Persons/Persons';
 import Group from '../Group/Group';
 

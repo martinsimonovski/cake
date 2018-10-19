@@ -44,9 +44,13 @@ class Persons extends Component {
         const payed = this.props.group.payedIds.includes(person._id);
         
         if (!this.props.auth.authenticated) {
-            return (
-                <span style={{color: '#209cee'}}>&#10004;</span>
-            );
+            if (payed) {
+                return (
+                    <span style={{color: '#209cee'}}>&#10004;</span>
+                );
+            } else {
+                return <span>&nbsp;</span>;
+            }
         }
 
         return (<Switch 
@@ -59,7 +63,6 @@ class Persons extends Component {
     }
 
     render() {
-        console.log('props:', this.props);
         return (
             <table className="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
                 <thead>

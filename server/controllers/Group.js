@@ -69,10 +69,14 @@ export function updatePayedIds(req, res, next) {
         if (err) { return next(err); }
 
         const personId = req.body.personId;
-        const payed = req.body.payed;
+        let payed = req.body.payed;
 
-        if (!personId || !payed) {
-            return res.status(422).send({ errorMessage: 'Please provide the personId and payed.' });
+        if (!personId) {
+            return res.status(422).send({ errorMessage: 'Please provide the personId.' });
+        }
+
+        if (payed !== true) {
+            payed = false;
         }
 
         const hasPayed = existingGroup.payedIds.includes(personId);
@@ -91,7 +95,8 @@ export function updatePayedIds(req, res, next) {
             }
 
             res.json({
-                message: "Person " + payed ? 'payed' : 'unpayed'
+                message: "Person " + payed ? 'payed' : 'unpayed',
+                group: existingGroup
             });
         })
     });
