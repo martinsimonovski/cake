@@ -2,7 +2,7 @@ import Person from '../models/Person';
 import fs from 'fs';
 
 export function get(req, res, next) {
-    Person.find({}, function (err, persons) {
+    Person.find({}, null, {sort: {firstName: 1} }, function (err, persons) {
         res.json(persons);
     });
 }

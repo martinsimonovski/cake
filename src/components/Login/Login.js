@@ -22,11 +22,13 @@ class Login extends Component {
 
         return (
             <div className="bd-lead">
-                <header className="bd-header">
-                    <div className="bd-header-titles">
-                        <h1 className="title">Login</h1>
-                    </div>
-                </header>
+                <section className="section">
+                    <header className="bd-header">
+                        <div className="bd-header-titles">
+                            <h1 className="title has-text-centered">Login</h1>
+                        </div>
+                    </header>   
+                </section>
                 <section className="section">
                     <div className="columns">
                         <div className="column"></div>
@@ -58,7 +60,7 @@ class Login extends Component {
                                 </div>
                                 <div className="field is-grouped is-grouped-centered">
                                     <p className="control">
-                                        <button className="button is-primary">Login</button>
+                                        <button className="button is-info">Login</button>
                                     </p>
                                 </div>
                             </form>
