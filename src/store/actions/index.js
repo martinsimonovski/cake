@@ -1,5 +1,7 @@
-import { AUTH_USER, AUTH_ERROR } from './types';
-import { FETCH_PERSONS } from './types';
+import { AUTH_USER, 
+         AUTH_ERROR,
+         FETCH_PERSONS,
+         FETCH_CURRENT_GROUP } from './types';
 
 export const login = (formProps, callback) => async (dispatch) => {
     try {
@@ -34,3 +36,11 @@ export const fetchPersons = () => async (dispatch, getState, api) => {
         payload: res
     });
 };
+
+export const fetchCurrentGroup = () => async(dispatch, getState, api) => {
+    const res = await api.get('birthday/group/current');
+    dispatch({
+        type: FETCH_CURRENT_GROUP,
+        payload: res
+    })
+}

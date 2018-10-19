@@ -138,7 +138,7 @@ function getBirthdayPersons(dates) {
     return promise.then(persons => {
         let personsMap = [];
         persons.forEach(person => {
-            if (hasBirthday(new Date(person.dateOfBirth), dates)) {
+            if (hasBirthday(new Date(person.birthday), dates)) {
                 personsMap.push(person);
             }
         });
@@ -147,10 +147,10 @@ function getBirthdayPersons(dates) {
     });
 }
 
-function hasBirthday(dateOfBirth, { startDate, endDate }) {
-    let year = dateOfBirth.getDate() <= 15 ? endDate.getFullYear() : startDate.getFullYear();
-    dateOfBirth.setFullYear(year);
-    if (dateOfBirth >= startDate && dateOfBirth < endDate) {
+function hasBirthday(birthday, { startDate, endDate }) {
+    let year = birthday.getDate() <= 15 ? endDate.getFullYear() : startDate.getFullYear();
+    birthday.setFullYear(year);
+    if (birthday >= startDate && birthday < endDate) {
         return true;
     }
 

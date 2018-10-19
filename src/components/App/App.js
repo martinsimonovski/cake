@@ -4,16 +4,11 @@ import { renderRoutes } from 'react-router-config';
 
 const App = ({route}) => {
   return (
-    <main className="wrapper">
+    <main>
       <Header />
-      <main className="container">
-        <section className="section">
-          <div className="container">
-            {renderRoutes(route.routes)}
-          </div>
-        </section>
+      <main className="fullwidth">
+        {renderRoutes(route.routes)}
       </main>
-
     </main>
   );
 }
