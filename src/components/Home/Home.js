@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchPersons } from '../../store/actions';
-import { fetchCurrentGroup } from '../../store/actions';
+import { fetchPersons, fetchCurrentGroup, updateGroup } from '../../store/actions';
+import { UPDATE_GROUP } from '../../store/actions/types';
 import Persons from '../Persons/Persons';
 import Group from '../Group/Group';
 
 class Home extends Component {
+    constructor(props) {
+        super(props);
+        
+        this.handlePayed = this.handlePayed.bind(this);
+    }
+
     componentDidMount() {
         this.props.fetchCurrentGroup();
         this.props.fetchPersons();
     }
 
     getBirthdayUsers() {
-        if (this.props.persons.length === undefined) {
+        if (this.props.persons.length === 0) {
             return [];
         }
 
@@ -21,36 +27,41 @@ class Home extends Component {
         });
     }
 
+    handlePayed({groupId, personId, payed}) {
+        this.props.updateGroup({groupId, personId, payed});
+    }
+
     render() {
         const personsInfo = this.getBirthdayUsers();
         return (
             <div>
                 <Group group={this.props.group} personsInfo={personsInfo} />
                 <section className="section container">
-                    <Persons persons={this.props.persons} group={this.props.group} />
+                    <Persons 
+                        persons={this.props.persons} 
+                        group={this.props.group} 
+                        auth={this.props.auth}
+                        handlePayed={this.handlePayed} />
                 </section>
             </div>
         );
     }
 }
 
-function mapStateToProps({ group, persons }) {
+function mapStateToProps({ group, persons, auth }) {
     return {
         persons,
-        group
+        group,
+        auth
     };
 }
 
-function loadPersons(store) {
-    return store.dispatch(fetchPersons());
-}
-
-function loadCurrentGroup(store) {
-    return store.dispatch(fetchCurrentGroup());
-}
+const mapDispatchToProps = dispatch => ({
+    fetchPersons: () => dispatch(fetchPersons()),
+    fetchCurrentGroup: () => dispatch(fetchCurrentGroup()),
+    updateGroup: (params) => dispatch(updateGroup(params))
+});
 
 export default {
-    loadCurrentGroup,
-    loadPersons,
-    component: connect(mapStateToProps, {fetchPersons, fetchCurrentGroup})(Home)
+    component: connect(mapStateToProps, mapDispatchToProps)(Home)
 };

@@ -1,7 +1,8 @@
 import { AUTH_USER, 
          AUTH_ERROR,
          FETCH_PERSONS,
-         FETCH_CURRENT_GROUP } from './types';
+         FETCH_CURRENT_GROUP,
+         UPDATE_GROUP } from './types';
 
 export const login = (formProps, callback) => async (dispatch) => {
     try {
@@ -38,9 +39,21 @@ export const fetchPersons = () => async (dispatch, getState, api) => {
 };
 
 export const fetchCurrentGroup = () => async(dispatch, getState, api) => {
-    const res = await api.get('birthday/group/current');
+    const res = await api.get('/birthday/group/current');
     dispatch({
         type: FETCH_CURRENT_GROUP,
         payload: res
     })
+}
+
+export const updateGroup = ({groupId, personId, payed}) => async(dispatch, getState, api) => {
+    const res = await api.put(`/birthday/group/${groupId}`, {
+        personId, 
+        payed
+    });
+
+    dispatch({
+        type: UPDATE_GROUP,
+        payload: res
+    });
 }
