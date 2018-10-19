@@ -3,13 +3,7 @@ import fs from 'fs';
 
 export function get(req, res, next) {
     Person.find({}, function (err, persons) {
-        let personsMap = {};
-
-        persons.forEach(person => {
-            personsMap[person._id] = person;
-        });
-
-        res.json(personsMap);
+        res.json(persons);
     });
 }
 

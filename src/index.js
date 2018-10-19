@@ -5,12 +5,21 @@ import { BrowserRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import reduxThunk from 'redux-thunk';
-import authReducers from './store/auth/reducers';
+import thunk from 'redux-thunk';
+import authReducers from './store/reducers';
+import axios from 'axios';
 
 import Routes from './Routes';
 
-const store = createStore(authReducers, { auth: { authenticated: localStorage.getItem('token') } }, applyMiddleware(reduxThunk));
+const axiosInstance = axios.create({
+    baseURL: 'http://localhost:3001'
+});
+
+const store = createStore(
+    authReducers,
+    { auth: { authenticated: localStorage.getItem('token') } },
+    applyMiddleware(thunk.withExtraArgument(axiosInstance))
+);
 
 ReactDOM.render(
     <Provider store={store}>

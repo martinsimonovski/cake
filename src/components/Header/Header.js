@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as authActions from '../../store/auth/actions'; 
+import * as authActions from '../../store/actions';
 
 class Header extends Component {
 
@@ -9,9 +9,9 @@ class Header extends Component {
     constructor(props) {
         super(props);
 
-        this.handleLogout = this.handleLogout.bind(this); 
+        this.handleLogout = this.handleLogout.bind(this);
     }
-    
+
     handleLogout(event) {
         event.preventDefault();
         this.props.dispatch(authActions.logout());
@@ -19,9 +19,9 @@ class Header extends Component {
 
     render() {
         const authButton = this.props.auth.authenticated ?
-        (<Link to="/" onClick={this.handleLogout}>Logout</Link>) :
-        (<Link to="/login" className="navbar-item">Login</Link>);
-        
+            (<Link to="/" onClick={this.handleLogout}>Logout</Link>) :
+            (<Link to="/login" className="navbar-item">Login</Link>);
+
         return (
             <nav className="navbar has-shadow is-spaced">
                 <section className="container">
@@ -30,7 +30,7 @@ class Header extends Component {
                     </div>
                     <div className="navbar-menu">
                         <div className="navbar-end">
-                            { authButton }
+                            {authButton}
                         </div>
                     </div>
                 </section>
@@ -39,7 +39,7 @@ class Header extends Component {
     };
 }
 
-function mapStateToProps( { auth } ) {
+function mapStateToProps({ auth }) {
     return { auth };
 }
 

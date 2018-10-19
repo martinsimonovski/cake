@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { reduxForm, Field } from 'redux-form';
-import * as authActions from '../../store/auth/actions'; 
+import * as authActions from '../../store/actions'; 
 
 class Login extends Component {
 
