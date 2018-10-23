@@ -5,7 +5,8 @@ import {
     FETCH_CURRENT_GROUP,
     UPDATE_GROUP,
     ADD_PERSON,
-    ADD_PERSON_ERROR
+    PERSON_ERROR,
+    DELETE_PERSON
 } from './types';
 
 export const login = (formProps, callback) => async (dispatch) => {
@@ -63,7 +64,7 @@ export const updateGroup = ({ groupId, personId, payed }) => async (dispatch, ge
 }
 
 export const addPerson = (formProps, callback) => async (dispatch, getState, api) => {
-    const res = await api.post(`/persons`, {
+    await api.post(`/persons`, {
         firstName: formProps.firstName,
         lastName: formProps.lastName,
         birthday: formProps.birthday
@@ -73,10 +74,28 @@ export const addPerson = (formProps, callback) => async (dispatch, getState, api
             payload: data
         });
         callback();
-    }).catch(error => {
+    }, error => {
         dispatch({
-            type: ADD_PERSON_ERROR,
+            type: PERSON_ERROR,
             payload: error.response
         });
     });
+}
+
+export const deletePerson = (id, callback) => async (dispatch, getState, api) => {
+    await api.delete(`/persons/${id}`).then(
+        data => {
+            dispatch({
+                type: DELETE_PERSON,
+                payload: data
+            });
+            callback();
+        }, error => {
+            dispatch({
+                type: PERSON_ERROR,
+                payload: error.response
+            });
+            callback();
+        }
+    );
 }

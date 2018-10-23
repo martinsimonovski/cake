@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchPersons } from '../../store/actions';
+import { fetchPersons, deletePerson } from '../../store/actions';
 
 class ListPersons extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleDelete = this.handleDelete.bind(this);
+    }
 
     componentDidMount() {
         this.props.fetchPersons();
@@ -15,7 +20,7 @@ class ListPersons extends Component {
         const d = new Date(date);
         const day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
         const styles = {
-            "font-family": "monospace"
+            "fontFamily": "monospace"
         };
         return (
             <span style={styles}>
@@ -24,9 +29,20 @@ class ListPersons extends Component {
         );
     }
 
+    handleDelete(personId) {
+        if (window.confirm("Are you sure?")) {
+            this.props.deletePerson(personId, () => {
+                if (this.props.persons.errorMessage) {
+                    window.alert(`Error deleting: ${this.props.persons.errorMessage}`);
+                }
+            });
+        }
+
+    }
+
     renderPersons() {
         let number = 1;
-        return this.props.persons.map(person => {
+        return this.props.persons.data.map(person => {
             return (
                 <tr key={person._id}>
                     <td>
@@ -39,7 +55,7 @@ class ListPersons extends Component {
                         {this.renderDate(person.birthday)}
                     </td>
                     <td className="tdContainer">
-                        <button className="button is-danger">Delete</button>
+                        <button className="button is-danger" onClick={() => this.handleDelete(person._id)}>Delete</button>
                     </td>
                 </tr>
             );
@@ -67,14 +83,14 @@ class ListPersons extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state);
     return {
         persons: state.persons
     };
 }
 
 const mapDispatchToProps = dispatch => ({
-    fetchPersons: () => dispatch(fetchPersons())
+    fetchPersons: () => dispatch(fetchPersons()),
+    deletePerson: (id, callback) => dispatch(deletePerson(id, callback))
 });
 
 export default {

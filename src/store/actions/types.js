@@ -9,4 +9,5 @@ export const FETCH_CURRENT_GROUP = 'fetch_current_group';
 export const UPDATE_GROUP = 'update_group';
 
 export const ADD_PERSON = 'add_person';
-export const ADD_PERSON_ERROR = 'add_person_error';
+export const PERSON_ERROR = 'person_error';
+export const DELETE_PERSON = 'delete_person';

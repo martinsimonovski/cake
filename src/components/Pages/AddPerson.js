@@ -11,7 +11,7 @@ class AddPerson extends Component {
     }
 
     onSubmit(formProps) {
-        this.props.addPerson(formProps, (data) => {
+        this.props.addPerson(formProps, () => {
             this.props.dispatch(reset('addPerson'));
         })
     }
