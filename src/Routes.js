@@ -1,6 +1,7 @@
 import App from './components/App/App';
 import Home from './components/Home/Home';
 import Login from './components/Login/Login';
+import AddPersons from './components/Pages/AddPerson';
 
 export default [
     {
@@ -14,6 +15,10 @@ export default [
             {
                 ...Login,
                 path: '/login'
+            },
+            {
+                ...AddPersons,
+                path: '/persons/add'
             }
         ]
     }

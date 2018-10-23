@@ -21,7 +21,14 @@ class Header extends Component {
         if (this.props.auth.authenticated) {
             return (
                 <Fragment>
-                    <a className="button"><strong>Persons</strong></a>
+                    <div className="navbar-item has-dropdown is-hoverable">
+                        <a className="navbar-link button">Persons</a>
+
+                        <div className="navbar-dropdown">
+                            <Link to="/persons/add" className="navbar-item"><strong>Add</strong></Link>
+                            <a className="navbar-item">List</a>
+                        </div>
+                    </div>
                     <a className="button"><strong>Create Group</strong></a>
                 </Fragment>
             )
@@ -47,9 +54,12 @@ class Header extends Component {
 
                             <div className="buttons">
                                 <a className="button"><strong>Payments</strong></a>
+
                                 {this.renderAuthenticatedButtons()}
                                 {authButton}
                             </div>
+
+
                         </div>
                     </div>
                 </section>

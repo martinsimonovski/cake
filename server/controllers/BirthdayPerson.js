@@ -2,7 +2,7 @@ import Person from '../models/Person';
 import fs from 'fs';
 
 export function get(req, res, next) {
-    Person.find({}, null, {sort: {firstName: 1} }, function (err, persons) {
+    Person.find({}, null, { sort: { firstName: 1 } }, function (err, persons) {
         res.json(persons);
     });
 }
@@ -10,9 +10,9 @@ export function get(req, res, next) {
 export function add(req, res, next) {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
-    const dateOfBirth = req.body.dateOfBirth;
+    const birthday = req.body.birthday;
 
-    if (!firstName || !lastName || !dateOfBirth) {
+    if (!firstName || !lastName || !birthday) {
         return res.status(422).send({ errorMessage: 'Please provide the appropriate information.' });
     }
 
@@ -26,7 +26,7 @@ export function add(req, res, next) {
         const person = new Person({
             firstName: firstName,
             lastName: lastName,
-            dateOfBirth: dateOfBirth
+            birthday: birthday
         });
 
         person.save((err) => {

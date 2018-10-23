@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, reset } from 'redux-form';
 import * as actions from '../../store/actions';
 
-class Login extends Component {
+class AddPerson extends Component {
+    constructor(props) {
+        super(props);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
 
-    onSubmit = (formProps) => {
-        this.props.login(formProps, () => {
-            this.props.history.push('/');
-        });
+    onSubmit(formProps) {
+        this.props.addPerson(formProps, (data) => {
+            this.props.dispatch(reset('addPerson'));
+        })
     }
 
     render() {
-        if (this.props.authenticated) {
-            return <Redirect to="/" />;
-        }
-
         const { handleSubmit } = this.props;
 
         return (
@@ -25,7 +24,7 @@ class Login extends Component {
                 <section className="section">
                     <header className="bd-header">
                         <div className="bd-header-titles">
-                            <h1 className="title has-text-centered">Login</h1>
+                            <h1 className="title has-text-centered">Persons</h1>
                         </div>
                     </header>
                 </section>
@@ -35,11 +34,11 @@ class Login extends Component {
                         <div className="column is-two-thirds">
                             <form onSubmit={handleSubmit(this.onSubmit)}>
                                 <div className="field">
-                                    <label className="label">Username</label>
+                                    <label className="label">First name:</label>
                                     <div className="control">
                                         <Field
                                             className="input"
-                                            name="username"
+                                            name="firstName"
                                             type="text"
                                             component="input"
                                             autoComplete="none"
@@ -47,12 +46,24 @@ class Login extends Component {
                                     </div>
                                 </div>
                                 <div className="field">
-                                    <label className="label">Password</label>
+                                    <label className="label">Last name:</label>
                                     <div className="control">
                                         <Field
                                             className="input"
-                                            name="password"
-                                            type="password"
+                                            name="lastName"
+                                            type="text"
+                                            component="input"
+                                            autoComplete="none"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="field">
+                                    <label className="label">Birthday:</label>
+                                    <div className="control">
+                                        <Field
+                                            className="input"
+                                            name="birthday"
+                                            type="date"
                                             component="input"
                                             autoComplete="none"
                                         />
@@ -60,29 +71,37 @@ class Login extends Component {
                                 </div>
                                 <div className="field is-grouped is-grouped-centered">
                                     <p className="control">
-                                        <button className="button is-info">Login</button>
+                                        <button className="button is-info">Add</button>
                                     </p>
                                 </div>
+                                {this.props.persons.errorMessage &&
+                                    <article className="message is-danger">
+                                        <div className="message-body">
+                                            {this.props.persons.errorMessage}
+                                        </div>
+                                    </article>
+                                }
                             </form>
                         </div>
                         <div className="column"></div>
                     </div>
                 </section>
-            </div>
+            </div >
         );
     }
-};
+}
 
 function mapStateToProps(state) {
     return {
-        errorMessage: state.auth.errorMessage,
-        authenticated: state.auth.authenticated
+        auth: state.auth,
+        persons: state.persons,
+        group: state.group
     };
 }
 
 export default {
     component: compose(
         connect(mapStateToProps, actions),
-        reduxForm({ form: 'login' })
-    )(Login)
+        reduxForm({ form: 'addPerson' })
+    )(AddPerson)
 };
