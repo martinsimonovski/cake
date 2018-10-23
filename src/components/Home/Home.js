@@ -17,10 +17,6 @@ class Home extends Component {
     }
 
     getBirthdayUsers() {
-        if (this.props.persons.length === 0) {
-            return [];
-        }
-
         return this.props.persons.data.filter(person => {
             return this.props.group.birthdayIds.includes(person._id)
         });

@@ -29,7 +29,7 @@ class Header extends Component {
                             <Link to="/persons" className="navbar-item">List</Link>
                         </div>
                     </div>
-                    <a className="button"><strong>Create Group</strong></a>
+                    <button className="button"><strong>Create Group</strong></button>
                 </Fragment>
             )
         }
@@ -52,7 +52,7 @@ class Header extends Component {
                     <div className="navbar-menu">
                         <div className="navbar-end">
                             <div className="buttons">
-                                <a className="button"><strong>Payments</strong></a>
+                                {/* <a className="button"><strong>Payments</strong></a> */}
                                 {this.renderAuthenticatedButtons()}
                                 {authButton}
                             </div>
