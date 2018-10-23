@@ -7,7 +7,7 @@ import Group from '../Group/Group';
 class Home extends Component {
     constructor(props) {
         super(props);
-        
+
         this.handlePayed = this.handlePayed.bind(this);
     }
 
@@ -21,13 +21,13 @@ class Home extends Component {
             return [];
         }
 
-        return this.props.persons.filter(person => {
+        return this.props.persons.data.filter(person => {
             return this.props.group.birthdayIds.includes(person._id)
         });
     }
 
-    handlePayed({groupId, personId, payed}) {
-        this.props.updateGroup({groupId, personId, payed});
+    handlePayed({ groupId, personId, payed }) {
+        this.props.updateGroup({ groupId, personId, payed });
     }
 
     render() {
@@ -36,9 +36,9 @@ class Home extends Component {
             <div>
                 <Group group={this.props.group} personsInfo={personsInfo} />
                 <section className="section container">
-                    <Persons 
-                        persons={this.props.persons} 
-                        group={this.props.group} 
+                    <Persons
+                        persons={this.props.persons.data}
+                        group={this.props.group}
                         auth={this.props.auth}
                         handlePayed={this.handlePayed} />
                 </section>

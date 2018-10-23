@@ -18,18 +18,18 @@ class Persons extends Component {
     }
 
     renderPersons() {
-        
+
         return this.props.persons.map(person => {
             return (
                 <tr key={person._id}>
                     <td>
-                    {person.firstName} {person.lastName}
+                        {person.firstName} {person.lastName}
                     </td>
                     <td>
-                        { this.getPrice(person) } den.
+                        {this.getPrice(person)} den.
                     </td>
                     <td className="tdContainer">
-                        { this.renderPayed(person) }
+                        {this.renderPayed(person)}
                     </td>
                 </tr>
             );
@@ -42,21 +42,21 @@ class Persons extends Component {
 
     renderPayed(person) {
         const payed = this.props.group.payedIds.includes(person._id);
-        
+
         if (!this.props.auth.authenticated) {
             if (payed) {
                 return (
-                    <span style={{color: '#209cee'}}>&#10004;</span>
+                    <span style={{ color: '#209cee' }}>&#10004;</span>
                 );
             } else {
                 return <span>&nbsp;</span>;
             }
         }
 
-        return (<Switch 
-            label="Switch No Text" 
-            noText={true} 
-            id={person._id} 
+        return (<Switch
+            label="Switch No Text"
+            noText={true}
+            id={person._id}
             groupId={this.props.group._id}
             checked={payed}
             handlePayed={this.handlePayed} />);
