@@ -22,11 +22,11 @@ class Header extends Component {
             return (
                 <Fragment>
                     <div className="navbar-item has-dropdown is-hoverable">
-                        <a className="navbar-link button">Persons</a>
+                        <span className="navbar-link button">Persons</span>
 
                         <div className="navbar-dropdown">
                             <Link to="/persons/add" className="navbar-item"><strong>Add</strong></Link>
-                            <a className="navbar-item">List</a>
+                            <Link to="/persons" className="navbar-item">List</Link>
                         </div>
                     </div>
                     <a className="button"><strong>Create Group</strong></a>
@@ -46,20 +46,16 @@ class Header extends Component {
                 <section className="container">
                     <div className="navbar-brand">
                         <Link to="/" className="navbar-item">
-                            <img src="/cake.png" /> <strong>CAKE</strong>
+                            <img src="/cake.png" alt="Cake Logo" /> <strong>CAKE</strong>
                         </Link>
                     </div>
                     <div className="navbar-menu">
                         <div className="navbar-end">
-
                             <div className="buttons">
                                 <a className="button"><strong>Payments</strong></a>
-
                                 {this.renderAuthenticatedButtons()}
                                 {authButton}
                             </div>
-
-
                         </div>
                     </div>
                 </section>
