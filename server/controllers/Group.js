@@ -1,14 +1,25 @@
 import Group from '../models/Group';
 import Person from '../models/Person';
 
+export function getNextMonth(req, res, next) {
+    const today = new Date();
+    let startDate = new Date(today.getFullYear(), today.getMonth() + 1, 1, 1, 0, 0);
+    let endDate = new Date(today.getFullYear(), today.getMonth() + 2, 0, 1, 0, 0);
+
+    return {
+        startDate,
+        endDate
+    };
+}
+
 export function create(req, res, next) {
     const startDate = req.startDate;
     const endDate = req.endDate;
 
     if (!startDate || !endDate) {
-        const dates = getAutoDates();
-
-        getBirthdayPersons(dates).then((persons) => {
+        const dates = getNextMonth();
+        console.log(dates);
+        getBirthdayPersonsInMonth(dates).then((persons) => {
             let birthdayIds = persons.map(person => {
                 return person._id;
             });
@@ -103,7 +114,7 @@ export function updatePayedIds(req, res, next) {
 }
 
 export function getCurrent(req, res, next) {
-    Group.findOne({}, {}, { sort: { 'created_at': -1 } }, (err, group) => {
+    Group.findOne({}, {}, { sort: { 'createdAt': -1 } }, (err, group) => {
         res.json(group);
     });
 }
@@ -144,6 +155,21 @@ function getBirthdayPersons(dates) {
         let personsMap = [];
         persons.forEach(person => {
             if (hasBirthday(new Date(person.birthday), dates)) {
+                personsMap.push(person);
+            }
+        });
+
+        return personsMap;
+    });
+}
+
+function getBirthdayPersonsInMonth(dates) {
+    const promise = Person.find({}).exec();
+    return promise.then(persons => {
+        let personsMap = [];
+        persons.forEach(person => {
+            let birthday = new Date(person.birthday);
+            if (birthday.getMonth() === dates.startDate.getMonth()) {
                 personsMap.push(person);
             }
         });
