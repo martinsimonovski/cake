@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as authActions from '../../store/actions';
+import { logout, createGroup } from '../../store/actions';
 
 class Header extends Component {
 
@@ -10,11 +10,20 @@ class Header extends Component {
         super(props);
 
         this.handleLogout = this.handleLogout.bind(this);
+        this.handleCreateGroup = this.handleCreateGroup.bind(this);
     }
 
     handleLogout(event) {
         event.preventDefault();
-        this.props.dispatch(authActions.logout());
+        this.props.logout();
+    }
+
+    handleCreateGroup() {
+        this.props.createGroup(() => {
+            alert('Group created');
+            window.location.reload()
+        });
+
     }
 
     renderAuthenticatedButtons() {
@@ -29,7 +38,7 @@ class Header extends Component {
                             <Link to="/persons" className="navbar-item">List</Link>
                         </div>
                     </div>
-                    <button className="button"><strong>Create Group</strong></button>
+                    <button className="button" onClick={this.handleCreateGroup}><strong>Create Group</strong></button>
                 </Fragment>
             )
         }
@@ -68,4 +77,9 @@ function mapStateToProps({ auth }) {
     return { auth };
 }
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = dispatch => ({
+    logout: () => dispatch(logout()),
+    createGroup: (callback) => dispatch(createGroup(callback))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

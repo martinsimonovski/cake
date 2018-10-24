@@ -53,7 +53,7 @@ export function remove(req, res, next) {
         if (err) { return next(err); }
 
         if (existingGroup.payedIds === [] || existingGroup.payedIds.length === 0) {
-            return res.status(422).send({ errorMessage: 'You can\'t delete the group because some people have payed.' });
+            return res.status(422).send({ errorMessage: `You can't delete the group because some people have payed.` });
         }
 
         existingGroup.save((err) => {
