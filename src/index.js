@@ -1,33 +1,35 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import * as serviceWorker from './serviceWorker';
-import { BrowserRouter } from 'react-router-dom';
-import { renderRoutes } from 'react-router-config';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import authReducers from './store/reducers';
-import axios from 'axios';
+import React from "react";
+import ReactDOM from "react-dom";
+import * as serviceWorker from "./serviceWorker";
+import { BrowserRouter } from "react-router-dom";
+import { renderRoutes } from "react-router-config";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import thunk from "redux-thunk";
+import reducers from "./store/reducers";
+import axios from "axios";
 
-import Routes from './Routes';
+import Routes from "./Routes";
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3001'
+  baseURL: "http://localhost:3001"
 });
 
 const store = createStore(
-    authReducers,
-    { auth: { authenticated: localStorage.getItem('token') } },
-    applyMiddleware(thunk.withExtraArgument(axiosInstance))
+  reducers,
+  { auth: { authenticated: localStorage.getItem("token") } },
+  composeWithDevTools(applyMiddleware(thunk.withExtraArgument(axiosInstance)))
 );
 
 ReactDOM.render(
-    <Provider store={store}>
-        <BrowserRouter>
-            <div>{renderRoutes(Routes)}</div>
-        </BrowserRouter>
-    </Provider>,
-    document.getElementById('root'));
+  <Provider store={store}>
+    <BrowserRouter>
+      <div>{renderRoutes(Routes)}</div>
+    </BrowserRouter>
+  </Provider>,
+  document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
