@@ -20,7 +20,7 @@ export const login = ({ username, password }, callback) => async (
       username,
       password
     });
-    console.log(response);
+
     dispatch({ type: AUTH_USER, payload: response.data.token });
     localStorage.setItem("token", response.data.token);
     callback();
