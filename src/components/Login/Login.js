@@ -1,88 +1,91 @@
-import React, { Component } from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { reduxForm, Field } from 'redux-form';
-import * as actions from '../../store/actions';
+import React, { Component } from "react";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { reduxForm, Field } from "redux-form";
+import * as actions from "../../store/actions";
 
 class Login extends Component {
+  onSubmit = formProps => {
+    this.props.login(formProps, () => {
+      this.props.history.push("/");
+    });
+  };
 
-    onSubmit = (formProps) => {
-        this.props.login(formProps, () => {
-            this.props.history.push('/');
-        });
+  render() {
+    if (this.props.authenticated) {
+      return <Redirect to="/" />;
     }
 
-    render() {
-        if (this.props.authenticated) {
-            return <Redirect to="/" />;
-        }
+    const { handleSubmit, errorMessage } = this.props;
 
-        const { handleSubmit } = this.props;
-
-        return (
-            <div className="bd-lead">
-                <section className="section">
-                    <header className="bd-header">
-                        <div className="bd-header-titles">
-                            <h1 className="title has-text-centered">Login</h1>
-                        </div>
-                    </header>
-                </section>
-                <section className="section">
-                    <div className="columns">
-                        <div className="column"></div>
-                        <div className="column is-two-thirds">
-                            <form onSubmit={handleSubmit(this.onSubmit)}>
-                                <div className="field">
-                                    <label className="label">Username</label>
-                                    <div className="control">
-                                        <Field
-                                            className="input"
-                                            name="username"
-                                            type="text"
-                                            component="input"
-                                            autoComplete="none"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="field">
-                                    <label className="label">Password</label>
-                                    <div className="control">
-                                        <Field
-                                            className="input"
-                                            name="password"
-                                            type="password"
-                                            component="input"
-                                            autoComplete="none"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="field is-grouped is-grouped-centered">
-                                    <p className="control">
-                                        <button className="button is-info">Login</button>
-                                    </p>
-                                </div>
-                            </form>
-                        </div>
-                        <div className="column"></div>
-                    </div>
-                </section>
+    return (
+      <div className="bd-lead">
+        <section className="section">
+          <header className="bd-header">
+            <div className="bd-header-titles">
+              <h1 className="title has-text-centered">Login</h1>
             </div>
-        );
-    }
-};
+          </header>
+        </section>
+        <section className="section">
+          <div className="columns">
+            <div className="column" />
+            <div className="column is-two-thirds">
+              <form onSubmit={handleSubmit(this.onSubmit)}>
+                <div className="field">
+                  <label className="label">Username</label>
+                  <div className="control">
+                    <Field
+                      className="input"
+                      name="username"
+                      type="text"
+                      component="input"
+                      autoComplete="none"
+                    />
+                  </div>
+                </div>
+                <div className="field">
+                  <label className="label">Password</label>
+                  <div className="control">
+                    <Field
+                      className="input"
+                      name="password"
+                      type="password"
+                      component="input"
+                      autoComplete="none"
+                    />
+                  </div>
+                </div>
+                <div className="field is-grouped is-grouped-centered">
+                  <p className="control">
+                    <button className="button is-info">Login</button>
+                  </p>
+                </div>
+                {errorMessage && <span>Wrong credentials</span>}
+              </form>
+            </div>
+            <div className="column" />
+          </div>
+        </section>
+      </div>
+    );
+  }
+}
 
 function mapStateToProps(state) {
-    return {
-        errorMessage: state.auth.errorMessage,
-        authenticated: state.auth.authenticated
-    };
+  return {
+    errorMessage: state.auth.errorMessage,
+    authenticated: state.auth.authenticated
+  };
 }
 
 export default {
-    component: compose(
-        connect(mapStateToProps, actions),
-        reduxForm({ form: 'login' })
-    )(Login)
+  component: compose(
+    connect(
+      mapStateToProps,
+      actions
+    ),
+    reduxForm({ form: "login" })
+  )(Login)
 };
