@@ -39,11 +39,11 @@ export const logout = () => {
 };
 
 export const fetchPersons = () => async (dispatch, getState, api) => {
-  const res = await api.get("/persons");
-
-  dispatch({
-    type: FETCH_PERSONS,
-    payload: res
+  await api.get("/persons").then(response => {
+    dispatch({
+      type: FETCH_PERSONS,
+      payload: response
+    });
   });
 };
 

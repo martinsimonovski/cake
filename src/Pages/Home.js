@@ -17,9 +17,13 @@ class Home extends Component {
   }
 
   getBirthdayUsers() {
-    return this.props.persons.data.filter(person => {
-      return this.props.group.birthdayIds.includes(person._id);
-    });
+    if (this.props.group && this.props.persons.data) {
+      return this.props.persons.data.filter(person => {
+        return this.props.group.birthdayIds.includes(person._id);
+      });
+    }
+
+    return [];
   }
 
   handlePayed({ groupId, personId, payed }) {
@@ -27,6 +31,10 @@ class Home extends Component {
   }
 
   render() {
+    if (!this.props.group.birthdayIds) {
+      return <div>Loading...</div>;
+    }
+
     const personsInfo = this.getBirthdayUsers();
     return (
       <div>
