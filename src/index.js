@@ -12,13 +12,17 @@ import axios from "axios";
 
 import Routes from "./Routes";
 
+const token = localStorage.getItem("token");
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3001"
+  baseURL: "http://localhost:3001",
+  headers: {
+    Authorization: token
+  }
 });
 
 const store = createStore(
   reducers,
-  { auth: { authenticated: localStorage.getItem("token") } },
+  { auth: { authenticated: token } },
   composeWithDevTools(applyMiddleware(thunk.withExtraArgument(axiosInstance)))
 );
 
