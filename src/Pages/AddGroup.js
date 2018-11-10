@@ -57,7 +57,7 @@ class AddGroup extends Component {
         <section className="section">
           <div className="columns">
             <div className="column" />
-            <div className="column is-one-thirdf">
+            <div className="column is-one-third">
               <form onSubmit={handleSubmit(this.onSubmit)} name="addGroup">
                 <div className="field">
                   <label className="label">Month:</label>

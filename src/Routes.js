@@ -4,6 +4,7 @@ import Login from "./components/Login/Login";
 import AddPersons from "./Pages/AddPerson";
 import ListPersons from "./Pages/ListPersons";
 import AddGroup from "./Pages/AddGroup";
+import GroupDetails from "./Pages/GroupDetails";
 
 export default [
   {
@@ -25,6 +26,10 @@ export default [
       {
         ...AddGroup,
         path: "/group/add"
+      },
+      {
+        ...GroupDetails,
+        path: "/group/:id"
       },
       {
         ...ListPersons,

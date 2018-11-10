@@ -31,7 +31,7 @@ class Login extends Component {
         <section className="section">
           <div className="columns">
             <div className="column" />
-            <div className="column is-two-thirds">
+            <div className="column is-one-third">
               <form onSubmit={handleSubmit(this.onSubmit)}>
                 <div className="field">
                   <label className="label">Username</label>
