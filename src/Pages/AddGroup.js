@@ -12,6 +12,7 @@ class AddGroup extends Component {
 
   onSubmit(formProps) {
     this.props.createCustomGroup(formProps, () => {
+      alert("Group created");
       this.props.dispatch(reset("addGroup"));
     });
   }

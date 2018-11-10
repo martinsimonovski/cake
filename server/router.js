@@ -24,9 +24,13 @@ export default app => {
   app.post("/auth/create", requireAuth, Authentication.addAdmin);
 
   // Birthday_groups
-  app.post("/birthday/group", BirthdayGroup.create);
+  app.post("/birthday/group", requireAuth, BirthdayGroup.create);
   app.delete("/birthday/group/:id", requireAuth, BirthdayGroup.remove);
   app.put("/birthday/group/:id", requireAuth, BirthdayGroup.updatePayedIds);
   app.get("/birthday/group/current", BirthdayGroup.getCurrent);
-  app.put("/birthday/setActiveGroup/:id", BirthdayGroup.setActiveGroup);
+  app.put(
+    "/birthday/setActiveGroup/:id",
+    requireAuth,
+    BirthdayGroup.setActiveGroup
+  );
 };

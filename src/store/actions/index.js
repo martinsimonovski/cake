@@ -85,6 +85,7 @@ export const createCustomGroup = (formProps, callback) => async (
           type: CREATE_GROUP,
           payload: response
         });
+        callback();
       },
       error => {}
     );
