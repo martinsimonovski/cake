@@ -24,23 +24,8 @@ export default app => {
   app.post("/auth/create", requireAuth, Authentication.addAdmin);
 
   // Birthday_groups
-  app.post("/birthday/group", requireAuth, BirthdayGroup.create);
+  app.post("/birthday/group", BirthdayGroup.create);
   app.delete("/birthday/group/:id", requireAuth, BirthdayGroup.remove);
   app.put("/birthday/group/:id", requireAuth, BirthdayGroup.updatePayedIds);
   app.get("/birthday/group/current", BirthdayGroup.getCurrent);
 };
-
-/*
-Header:
-    - Menu with links
-    - admin: quick action to create a list
-    - admin: login/logout
-Home page where you can:
-    - see the current group and the ammount that needs to be payed
-    - list with names (whos birthday it is)
-    - list with all the people that need to pay
-    - admin: action to select who payed
-    - admin: delete the group
-Passed groups
-    - table with all the birthday groups and who payed wor that group
-*/
