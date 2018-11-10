@@ -69,6 +69,27 @@ export const createGroup = callback => async (dispatch, getState, api) => {
   callback();
 };
 
+export const createCustomGroup = (formProps, callback) => async (
+  dispatch,
+  getState,
+  api
+) => {
+  await api
+    .post("/birthday/group", {
+      month: formProps.month,
+      active: formProps.active
+    })
+    .then(
+      response => {
+        dispatch({
+          type: CREATE_GROUP,
+          payload: response
+        });
+      },
+      error => {}
+    );
+};
+
 export const updateGroup = ({ groupId, personId, payed }) => async (
   dispatch,
   getState,

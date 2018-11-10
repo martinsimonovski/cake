@@ -3,6 +3,7 @@ import Home from "./Pages/Home";
 import Login from "./components/Login/Login";
 import AddPersons from "./Pages/AddPerson";
 import ListPersons from "./Pages/ListPersons";
+import AddGroup from "./Pages/AddGroup";
 
 export default [
   {
@@ -20,6 +21,10 @@ export default [
       {
         ...AddPersons,
         path: "/persons/add"
+      },
+      {
+        ...AddGroup,
+        path: "/group/add"
       },
       {
         ...ListPersons,
