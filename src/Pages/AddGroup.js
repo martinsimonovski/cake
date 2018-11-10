@@ -34,7 +34,7 @@ class AddGroup extends Component {
 
     return months.map((month, index) => {
       return (
-        <option key={index} value={index}>
+        <option key={index + 1} value={index + 1}>
           {month}
         </option>
       );
