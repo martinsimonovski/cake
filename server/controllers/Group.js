@@ -44,6 +44,19 @@ export function create(req, res, next) {
         return next(err);
       }
 
+      if (active) {
+        ActiveGroup.findOne((err, activeGroup) => {
+          if (!activeGroup) {
+            activeGroup = new ActiveGroup();
+          }
+
+          activeGroup.activeGroupId = group._id;
+          activeGroup.activatedAt = new Date();
+
+          activeGroup.save();
+        });
+      }
+
       res.json(group);
     });
   });
@@ -162,7 +175,7 @@ export function setActiveGroup(req, res, next) {
     return res.status(422).send({ errorMessage: "Please provide group id" });
   }
 
-  ActiveGroup.findOne({}, {}, {}, (err, group) => {
+  ActiveGroup.findOne((err, group) => {
     if (!group) {
       group = new ActiveGroup();
     }
