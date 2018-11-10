@@ -28,4 +28,5 @@ export default app => {
   app.delete("/birthday/group/:id", requireAuth, BirthdayGroup.remove);
   app.put("/birthday/group/:id", requireAuth, BirthdayGroup.updatePayedIds);
   app.get("/birthday/group/current", BirthdayGroup.getCurrent);
+  app.put("/birthday/setActiveGroup/:id", BirthdayGroup.setActiveGroup);
 };

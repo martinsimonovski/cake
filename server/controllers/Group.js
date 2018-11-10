@@ -1,5 +1,6 @@
 import Group from "../models/Group";
 import Person from "../models/Person";
+import ActiveGroup from "../models/ActiveGroup";
 
 export function getDates(month) {
   const today = new Date();
@@ -35,7 +36,6 @@ export function create(req, res, next) {
       startDate: dates.startDate,
       endDate: dates.endDate,
       price: birthdayIds.length * 100,
-      active: active,
       birthdayIds
     });
 
@@ -133,8 +133,10 @@ export function updatePayedIds(req, res, next) {
 }
 
 export function getCurrent(req, res, next) {
-  Group.findOne({}, {}, { sort: { createdAt: -1 } }, (err, group) => {
-    res.json(group);
+  ActiveGroup.findOne({}, {}, {}, (err, group) => {
+    Group.findOne({ _id: group.activeGroupId }, (err, group) => {
+      res.json(group);
+    });
   });
 }
 
@@ -150,5 +152,33 @@ function getBirthdayPersonsInMonth(dates) {
     });
 
     return personsMap;
+  });
+}
+
+export function setActiveGroup(req, res, next) {
+  const groupId = req.params.id;
+
+  if (!groupId) {
+    return res.status(422).send({ errorMessage: "Please provide group id" });
+  }
+
+  ActiveGroup.findOne({}, {}, {}, (err, group) => {
+    if (!group) {
+      group = new ActiveGroup();
+    }
+
+    group.activeGroupId = groupId;
+    group.activatedAt = new Date();
+
+    group.save(err => {
+      if (err) {
+        return next(err);
+      }
+
+      res.json({
+        message: "The group was activated",
+        group: group
+      });
+    });
   });
 }

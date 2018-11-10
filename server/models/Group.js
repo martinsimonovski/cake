@@ -6,7 +6,6 @@ const groupSchema = Schema({
   price: Number,
   birthdayIds: Array,
   closed: Boolean,
-  active: Boolean,
   payedIds: Array,
   createdAt: { type: Date, required: true, default: Date.now }
 });
