@@ -40,13 +40,29 @@ class Header extends Component {
               </Link>
             </div>
           </div>
-          <Link className="button" to="/groups/add">
-            <strong>Create Group</strong>
-          </Link>
         </Fragment>
       );
     }
     return "";
+  }
+
+  renderGroupButtons() {
+    return (
+      <div className="navbar-item has-dropdown is-hoverable">
+        <span className="navbar-link button">Group</span>
+
+        <div className="navbar-dropdown">
+          {this.props.auth.authenticated && (
+            <Link to="/groups/add" className="navbar-item">
+              <strong>Add</strong>
+            </Link>
+          )}
+          <Link to="/groups" className="navbar-item">
+            List
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   render() {
@@ -71,8 +87,8 @@ class Header extends Component {
           <div className="navbar-menu">
             <div className="navbar-end">
               <div className="buttons">
-                {/* <a className="button"><strong>Payments</strong></a> */}
                 {this.renderAuthenticatedButtons()}
+                {this.renderGroupButtons()}
                 {authButton}
               </div>
             </div>
