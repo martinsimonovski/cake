@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import "./group.css";
 
 class Group extends Component {
-  // let map = [];
-  // personsInfo.map(person => map[person._id] = person);
   renderTitle() {
     const months = [
       "January",
@@ -22,11 +20,6 @@ class Group extends Component {
 
     const { group } = this.props;
     let startDate = new Date(group.startDate);
-    // let endDate = new Date(group.endDate);
-
-    // const title = `${startDate.getDate()} ${
-    //   months[startDate.getMonth()]
-    // } - ${endDate.getDate()} ${months[endDate.getMonth()]}`;
     return <h1 className="title">{months[startDate.getMonth()]}</h1>;
   }
 

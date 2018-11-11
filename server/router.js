@@ -33,4 +33,5 @@ export default app => {
     requireAuth,
     BirthdayGroup.setActiveGroup
   );
+  app.get("/birthday/groups", BirthdayGroup.getAll);
 };

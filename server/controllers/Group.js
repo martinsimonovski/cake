@@ -195,3 +195,16 @@ export function setActiveGroup(req, res, next) {
     });
   });
 }
+
+export function getAll(req, res, next) {
+  Group.find({ $query: {}, $orderby: { createdAt: -1 } }, function(
+    error,
+    groups
+  ) {
+    if (error) {
+      return next(error);
+    }
+
+    res.json(groups);
+  });
+}

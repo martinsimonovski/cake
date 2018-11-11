@@ -9,19 +9,11 @@ class Header extends Component {
     super(props);
 
     this.handleLogout = this.handleLogout.bind(this);
-    this.handleCreateGroup = this.handleCreateGroup.bind(this);
   }
 
   handleLogout(event) {
     event.preventDefault();
     this.props.logout();
-  }
-
-  handleCreateGroup() {
-    this.props.createGroup(() => {
-      alert("Group created");
-      window.location.reload();
-    });
   }
 
   renderAuthenticatedButtons() {

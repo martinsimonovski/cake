@@ -3,6 +3,7 @@ import {
   AUTH_ERROR,
   FETCH_PERSONS,
   FETCH_CURRENT_GROUP,
+  FETCH_GROUPS,
   CREATE_GROUP,
   UPDATE_GROUP,
   ADD_PERSON,
@@ -53,6 +54,18 @@ export const fetchCurrentGroup = () => async (dispatch, getState, api) => {
     type: FETCH_CURRENT_GROUP,
     payload: res
   });
+};
+
+export const fetchGroups = () => async (dispatch, getState, api) => {
+  await api.get("/birthday/groups").then(
+    result => {
+      dispatch({
+        type: FETCH_GROUPS,
+        payload: result
+      });
+    },
+    error => {}
+  );
 };
 
 export const createGroup = callback => async (dispatch, getState, api) => {
