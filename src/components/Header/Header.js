@@ -65,17 +65,23 @@ class Header extends Component {
     );
   }
 
-  render() {
-    const authButton = this.props.auth.authenticated ? (
-      <Link to="/" className="button is-light" onClick={this.handleLogout}>
-        Logout
-      </Link>
-    ) : (
+  renderAuthButton() {
+    if (this.props.auth.authenticated) {
+      return (
+        <Link to="/" className="button is-light" onClick={this.handleLogout}>
+          Logout
+        </Link>
+      );
+    }
+
+    return (
       <Link to="/login" className="button is-light">
         Login
       </Link>
     );
+  }
 
+  render() {
     return (
       <nav className="navbar has-shadow is-spaced">
         <section className="container">
@@ -89,7 +95,7 @@ class Header extends Component {
               <div className="buttons">
                 {this.renderAuthenticatedButtons()}
                 {this.renderGroupButtons()}
-                {authButton}
+                {this.renderAuthButton()}
               </div>
             </div>
           </div>
