@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Persons from "../components/Persons/Persons";
 import {
   fetchPersons,
-  fetchCurrentGroup,
+  fetchGroup,
   updateGroup,
   setActiveGroup
 } from "../store/actions";
@@ -17,7 +17,7 @@ class GroupDetails extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchCurrentGroup();
+    this.props.fetchGroup(this.props.match.params.id);
     this.props.fetchPersons();
   }
 
@@ -127,7 +127,7 @@ function mapStateToProps({ group, persons, auth }) {
 
 const mapDispatchToProps = dispatch => ({
   fetchPersons: () => dispatch(fetchPersons()),
-  fetchCurrentGroup: () => dispatch(fetchCurrentGroup()),
+  fetchGroup: id => dispatch(fetchGroup(id)),
   updateGroup: params => dispatch(updateGroup(params)),
   setActiveGroup: (groupId, fn) => dispatch(setActiveGroup(groupId, fn))
 });

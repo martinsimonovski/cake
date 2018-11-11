@@ -24,14 +24,15 @@ export default app => {
   app.post("/auth/create", requireAuth, Authentication.addAdmin);
 
   // Birthday_groups
-  app.post("/birthday/group", requireAuth, BirthdayGroup.create);
-  app.delete("/birthday/group/:id", requireAuth, BirthdayGroup.remove);
-  app.put("/birthday/group/:id", requireAuth, BirthdayGroup.updatePayedIds);
-  app.get("/birthday/group/current", BirthdayGroup.getCurrent);
+  app.post("/birthday/groups", requireAuth, BirthdayGroup.create);
+  app.delete("/birthday/groups/:id", requireAuth, BirthdayGroup.remove);
+  app.put("/birthday/groups/:id", requireAuth, BirthdayGroup.updatePayedIds);
+  app.get("/birthday/groups/current", BirthdayGroup.getCurrent);
   app.put(
     "/birthday/setActiveGroup/:id",
     requireAuth,
     BirthdayGroup.setActiveGroup
   );
   app.get("/birthday/groups", BirthdayGroup.getAll);
+  app.get("/birthday/groups/:id", BirthdayGroup.getGroup);
 };

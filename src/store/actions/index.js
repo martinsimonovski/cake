@@ -3,6 +3,7 @@ import {
   AUTH_ERROR,
   FETCH_PERSONS,
   FETCH_CURRENT_GROUP,
+  FETCH_GROUP,
   FETCH_GROUPS,
   CREATE_GROUP,
   UPDATE_GROUP,
@@ -50,9 +51,17 @@ export const fetchPersons = () => async (dispatch, getState, api) => {
 };
 
 export const fetchCurrentGroup = () => async (dispatch, getState, api) => {
-  const res = await api.get("/birthday/group/current");
+  const res = await api.get("/birthday/groups/current");
   dispatch({
     type: FETCH_CURRENT_GROUP,
+    payload: res
+  });
+};
+
+export const fetchGroup = id => async (dispatch, getState, api) => {
+  const res = await api.get(`/birthday/groups/${id}`);
+  dispatch({
+    type: FETCH_GROUP,
     payload: res
   });
 };
@@ -70,7 +79,7 @@ export const fetchGroups = () => async (dispatch, getState, api) => {
 };
 
 export const createGroup = callback => async (dispatch, getState, api) => {
-  await api.post("/birthday/group").then(
+  await api.post("/birthday/groups").then(
     response => {
       dispatch({
         type: CREATE_GROUP,
@@ -89,7 +98,7 @@ export const createCustomGroup = (formProps, callback) => async (
   api
 ) => {
   await api
-    .post("/birthday/group", {
+    .post("/birthday/groups", {
       month: formProps.month,
       active: formProps.active
     })
@@ -110,7 +119,7 @@ export const updateGroup = ({ groupId, personId, payed }) => async (
   getState,
   api
 ) => {
-  const res = await api.put(`/birthday/group/${groupId}`, {
+  const res = await api.put(`/birthday/groups/${groupId}`, {
     personId,
     payed
   });

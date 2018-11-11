@@ -208,3 +208,19 @@ export function getAll(req, res, next) {
     res.json(groups);
   });
 }
+
+export function getGroup(req, res, next) {
+  if (!req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    return res
+      .status(422)
+      .send({ errorMessage: "Please provide the correct id of the group." });
+  }
+
+  Group.findOne({ _id: req.params.id }, (err, group) => {
+    if (err) {
+      return next(err);
+    }
+
+    res.json(group);
+  });
+}
