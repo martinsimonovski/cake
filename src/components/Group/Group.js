@@ -22,7 +22,7 @@ class Group extends Component {
 
     const { group } = this.props;
     let startDate = new Date(group.startDate);
-    let endDate = new Date(group.endDate);
+    // let endDate = new Date(group.endDate);
 
     // const title = `${startDate.getDate()} ${
     //   months[startDate.getMonth()]

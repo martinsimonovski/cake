@@ -40,7 +40,7 @@ class Header extends Component {
               </Link>
             </div>
           </div>
-          <Link className="button" to="/group/add">
+          <Link className="button" to="/groups/add">
             <strong>Create Group</strong>
           </Link>
         </Fragment>

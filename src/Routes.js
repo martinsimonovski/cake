@@ -5,6 +5,7 @@ import AddPersons from "./Pages/AddPerson";
 import ListPersons from "./Pages/ListPersons";
 import AddGroup from "./Pages/AddGroup";
 import GroupDetails from "./Pages/GroupDetails";
+import ListGroups from "./Pages/ListGroups";
 
 export default [
   {
@@ -24,16 +25,20 @@ export default [
         path: "/persons/add"
       },
       {
+        ...ListPersons,
+        path: "/persons"
+      },
+      {
         ...AddGroup,
-        path: "/group/add"
+        path: "/groups/add"
       },
       {
         ...GroupDetails,
-        path: "/group/:id"
+        path: "/groups/:id"
       },
       {
-        ...ListPersons,
-        path: "/persons"
+        ...ListGroups,
+        path: "/groups"
       }
     ]
   }
