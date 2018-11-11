@@ -8,7 +8,8 @@ import {
   UPDATE_GROUP,
   ADD_PERSON,
   PERSON_ERROR,
-  DELETE_PERSON
+  DELETE_PERSON,
+  SET_ACTIVE_GROUP
 } from "./types";
 
 export const login = ({ username, password }, callback) => async (
@@ -117,6 +118,20 @@ export const updateGroup = ({ groupId, personId, payed }) => async (
   dispatch({
     type: UPDATE_GROUP,
     payload: res
+  });
+};
+
+export const setActiveGroup = (groupId, callback) => async (
+  dispatch,
+  getState,
+  api
+) => {
+  await api.put(`/birthday/setActiveGroup/${groupId}`).then(result => {
+    dispatch({
+      type: SET_ACTIVE_GROUP,
+      payload: result
+    });
+    callback();
   });
 };
 

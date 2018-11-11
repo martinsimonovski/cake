@@ -1,13 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Persons from "../components/Persons/Persons";
-import { fetchPersons, fetchCurrentGroup, updateGroup } from "../store/actions";
+import {
+  fetchPersons,
+  fetchCurrentGroup,
+  updateGroup,
+  setActiveGroup
+} from "../store/actions";
 
 class GroupDetails extends Component {
   constructor(props) {
     super(props);
 
     this.handlePayed = this.handlePayed.bind(this);
+    this.handleActiveClick = this.handleActiveClick.bind(this);
   }
 
   componentDidMount() {
@@ -27,6 +33,20 @@ class GroupDetails extends Component {
 
   handlePayed({ groupId, personId, payed }) {
     this.props.updateGroup({ groupId, personId, payed });
+  }
+
+  handleActiveClick() {
+    this.props.setActiveGroup(this.props.group._id, () => {
+      alert("Group is set to active");
+    });
+  }
+
+  renderActiveButton() {
+    return (
+      <button className="button is-info" onClick={this.handleActiveClick}>
+        Set as current
+      </button>
+    );
   }
 
   renderGroup() {
@@ -50,7 +70,9 @@ class GroupDetails extends Component {
 
     return (
       <section className="section container">
-        <h1 className="title">{months[date.getMonth()]} </h1>
+        <h1 className="title">
+          {months[date.getMonth()]} {this.renderActiveButton()}
+        </h1>
         {this.renderBirthdays(personsInfo)}
       </section>
     );
@@ -106,7 +128,8 @@ function mapStateToProps({ group, persons, auth }) {
 const mapDispatchToProps = dispatch => ({
   fetchPersons: () => dispatch(fetchPersons()),
   fetchCurrentGroup: () => dispatch(fetchCurrentGroup()),
-  updateGroup: params => dispatch(updateGroup(params))
+  updateGroup: params => dispatch(updateGroup(params)),
+  setActiveGroup: (groupId, fn) => dispatch(setActiveGroup(groupId, fn))
 });
 
 export default {
