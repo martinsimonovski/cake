@@ -6,6 +6,8 @@ import { fetchPersons, fetchCurrentGroup, updateGroup } from "../store/actions";
 class GroupDetails extends Component {
   constructor(props) {
     super(props);
+
+    this.handlePayed = this.handlePayed.bind(this);
   }
 
   componentDidMount() {
@@ -13,25 +15,18 @@ class GroupDetails extends Component {
     this.props.fetchPersons();
   }
 
-  getUnpaid() {
-    if (this.props.group && this.props.persons.data) {
-      return this.props.persons.data.filter(person => {
-        return !this.props.group.payedIds.includes(person._id);
-      });
-    }
-
-    return [];
-  }
-
   renderBirthdays(personsInfo) {
     return personsInfo.map(person => {
-      const bday = new Date(person.birthday);
       return (
         <li key={person._id}>
           {person.firstName} {person.lastName}
         </li>
       );
     });
+  }
+
+  handlePayed({ groupId, personId, payed }) {
+    this.props.updateGroup({ groupId, personId, payed });
   }
 
   renderGroup() {
@@ -76,8 +71,6 @@ class GroupDetails extends Component {
       return <div>Loading</div>;
     }
 
-    const persons = this.getUnpaid();
-
     return (
       <div className="bd-lead">
         <section className="section">
@@ -91,7 +84,7 @@ class GroupDetails extends Component {
         <section className="section container">
           <h1 className="subtitle">List of people who haven't payed</h1>
           <Persons
-            persons={persons}
+            persons={this.props.persons.data}
             group={this.props.group}
             auth={this.props.auth}
             handlePayed={this.handlePayed}

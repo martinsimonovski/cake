@@ -18,7 +18,13 @@ class Persons extends Component {
 
   renderPersons() {
     let no = 1;
-    return this.props.persons.map(person => {
+
+    const filteredPersons = this.props.persons.filter(person => {
+      if (this.props.auth.authenticated) return true;
+      else return !this.props.group.payedIds.includes(person._id);
+    });
+
+    return filteredPersons.map(person => {
       return (
         <tr key={person._id}>
           <td>{no++}</td>
@@ -26,7 +32,9 @@ class Persons extends Component {
             {person.firstName} {person.lastName}
           </td>
           <td>{this.getPrice(person)} den.</td>
-          <td className="tdContainer">{this.renderPayed(person)}</td>
+          {this.props.auth.authenticated && (
+            <td className="tdContainer">{this.renderPayed(person)}</td>
+          )}
         </tr>
       );
     });
@@ -67,7 +75,7 @@ class Persons extends Component {
             <th />
             <th>Name</th>
             <th>Price</th>
-            <th>Payed</th>
+            {this.props.auth.authenticated && <th>Payed</th>}
           </tr>
         </thead>
         <tbody>{this.renderPersons()}</tbody>
