@@ -79,7 +79,8 @@ class Header extends Component {
         <section className="container">
           <div className="navbar-brand">
             <Link to="/" className="navbar-item">
-              <img src="/cake.png" alt="Cake Logo" /> <strong>CAKE</strong>
+              <img src="/cake.png" alt="Cake Logo" />{" "}
+              <strong style={{ fontSize: "20px" }}>PolarCAKE</strong>
             </Link>
           </div>
           <div className="navbar-menu">

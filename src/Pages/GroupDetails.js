@@ -42,11 +42,15 @@ class GroupDetails extends Component {
   }
 
   renderActiveButton() {
-    return (
-      <button className="button is-info" onClick={this.handleActiveClick}>
-        Set as current
-      </button>
-    );
+    if (this.props.auth.authenticated) {
+      return (
+        <button className="button is-info" onClick={this.handleActiveClick}>
+          Set as current
+        </button>
+      );
+    }
+
+    return "";
   }
 
   renderGroup() {
